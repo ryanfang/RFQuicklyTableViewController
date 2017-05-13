@@ -1,6 +1,6 @@
 //
 //  UIColor+HexString.m
-//  DT
+//  RFQuicklyTableViewController
 //
 //  Created by Ryan Nystrom on 2/5/13.
 //

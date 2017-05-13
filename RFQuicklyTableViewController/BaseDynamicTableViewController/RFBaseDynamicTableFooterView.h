@@ -1,6 +1,6 @@
 //
 //  RFBaseDynamicTableFooterView.h
-//  CCTalk
+//  RFQuicklyTableViewController
 //
 //  Created by Ryan Fang on 16/6/24.
 //  Copyright © 2016年 RFQuicklyTableViewController. All rights reserved.

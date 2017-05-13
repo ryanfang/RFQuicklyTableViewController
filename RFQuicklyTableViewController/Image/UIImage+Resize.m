@@ -1,9 +1,9 @@
 //
 //  Resize.m
-//  yuer
+//  RFQuicklyTableViewController
 //
-//  Created by HJ Mobile on 05/16/13.
-//  Copyright (c) 2013 Shanghai Hujia Cultural Communications Co.,Ltd. All rights reserved.
+//  Created by RyanFang Mobile on 05/16/13.
+//  Copyright © 2016年 RFQuicklyTableViewController. All rights reserved.
 //
 
 #import <CoreGraphics/CoreGraphics.h>

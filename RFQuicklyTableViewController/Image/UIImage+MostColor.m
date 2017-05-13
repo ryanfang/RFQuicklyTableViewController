@@ -1,6 +1,6 @@
 //
 //  UIImage+MostColor.m
-//  DT
+//  RFQuicklyTableViewController
 //
 //  Created by Ryan Fang on 2017/1/30.
 //

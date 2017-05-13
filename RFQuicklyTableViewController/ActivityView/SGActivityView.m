@@ -1,9 +1,9 @@
 //
 //  SGActivityView.m
-//  CCTalk
+//  RFQuicklyTableViewController
 //
-//  Created by HJ Mobile on 14-6-3.
-//  Copyright (c) 2014年 RFQuicklyTableViewController. All rights reserved.
+//  Created by RyanFang on 17-5-3.
+//  Copyright (c) 2017年 RFQuicklyTableViewController. All rights reserved.
 //
 
 #import "SGActivityView.h"

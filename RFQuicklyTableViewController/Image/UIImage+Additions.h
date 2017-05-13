@@ -1,9 +1,9 @@
 //
 //  UIImage+Additions.h
-//  CCTalk
+//  RFQuicklyTableViewController
 //
 //  Created by VincentX on 1/21/14.
-//  Copyright (c) 2014 Hujiang. All rights reserved.
+//  Copyright (c) 2017 RyanFang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
