@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  RFQuicklyTableViewControllerDemo
+
+  Created by Ryan Fang on 2017/5/11.
+  Copyright © 2017年 Ryan Fang. All rights reserved.
+*/
+
+"SETTINGS"="设置";
+"PUSH_SET"="推送设置";
+"HELP"="帮助";
+"RATE_ME"="评分";
+"ABOUT"="关于";
+"LOGOUT"="退 出 登 录";
+"NO_DATA"="没有数据";
+"REFRESH"="刷新";
