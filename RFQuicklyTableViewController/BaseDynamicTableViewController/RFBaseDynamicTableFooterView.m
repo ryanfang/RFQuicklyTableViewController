@@ -10,8 +10,8 @@
 
 @interface RFBaseDynamicTableFooterView ()
 
-@property (nonatomic, strong) UIImageView *tableFooterImageView;
-@property (nonatomic, strong) UIButton *tableFooterButton;
+@property (nonatomic, strong) UIView *noMoreView;
+@property (nonatomic, strong) UIButton *retryButton;
 
 @end
 
@@ -37,25 +37,26 @@
     [super layoutSubviews];
     self.backgroundColor = [UIColor clearColor];
     
-    [self addSubview:self.tableFooterButton];
-    [self addSubview:self.tableFooterImageView];
+    [self addSubview:self.retryButton];
+    [self addSubview:self.noMoreView];
 }
 
 - (void)dealloc {
-    _tableFooterButton = nil;
+    _noMoreView = nil;
+    _retryButton = nil;
 }
 
 #pragma mark - Widget define
 
-- (UIButton *)tableFooterButton {
-    if (!_tableFooterButton) {
-        _tableFooterButton = [[UIButton alloc] initWithFrame:CGRectMake(0,
+- (UIButton *)retryButton {
+    if (!_retryButton) {
+        _retryButton = [[UIButton alloc] initWithFrame:CGRectMake(0,
                                                                         0,
                                                                         CGRectGetWidth(self.frame),
                                                                         CGRectGetHeight(self.frame))];
-        _tableFooterButton.backgroundColor = [UIColor clearColor];
-        _tableFooterButton.hidden = YES;
-        [_tableFooterButton addTarget:self action:@selector(tableFooterButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        _retryButton.backgroundColor = [UIColor clearColor];
+        _retryButton.hidden = YES;
+        [_retryButton addTarget:self action:@selector(tableFooterButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         
         NSString *contentStr = @"加载失败，请|重试|";
         NSString *dispContentStr = [contentStr stringByReplacingOccurrencesOfString:@"|" withString:@""];
@@ -68,25 +69,31 @@
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(0, dispContentStr.length)];
             [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12.0f] range:NSMakeRange(0, dispContentStr.length)];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.0510 green:0.5176 blue:0.9882 alpha:1] range:[dispContentStr rangeOfString:lightString]];
-            [_tableFooterButton setAttributedTitle:str forState:UIControlStateNormal];
+            [_retryButton setAttributedTitle:str forState:UIControlStateNormal];
         }
     }
-    return _tableFooterButton;
+    return _retryButton;
 }
 
-- (UIImageView *)tableFooterImageView {
-    if (!_tableFooterImageView) {
-        CGFloat w = 204.0f;
+- (UIView *)noMoreView {
+    if (!_noMoreView) {
+        CGFloat w = CGRectGetWidth(self.frame);
         CGFloat h = 20.0f;
-        CGFloat x = (CGRectGetWidth(self.frame) - w)/2.0f;
+        CGFloat x = 0.0f;
         CGFloat y = 20.0f;
-        _tableFooterImageView = [[UIImageView alloc] initWithFrame:CGRectMake(x, y, w, h)];
-        _tableFooterImageView.backgroundColor = [UIColor clearColor];
-        _tableFooterImageView.contentMode = UIViewContentModeScaleAspectFill;
-        [_tableFooterImageView setImage:[UIImage imageNamed:@"ic_no_more"]];
-        _tableFooterImageView.hidden = NO;
+        _noMoreView = [[UIImageView alloc] initWithFrame:CGRectMake(x, y, w, h)];
+        _noMoreView.backgroundColor = [UIColor clearColor];
+        _noMoreView.contentMode = UIViewContentModeScaleAspectFill;
+        UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, w, h)];
+        contentLabel.backgroundColor = [UIColor clearColor];
+        contentLabel.textAlignment = NSTextAlignmentCenter;
+        contentLabel.textColor = [UIColor blackColor];
+        contentLabel.font = [UIFont systemFontOfSize:12.0f];
+        contentLabel.text = @"没有更多";
+        [_noMoreView addSubview:contentLabel];
+        _noMoreView.hidden = YES;
     }
-    return _tableFooterImageView;
+    return _noMoreView;
 }
 
 - (void)setType:(RFTableFooterViewType)type {
@@ -95,22 +102,22 @@
     switch (type) {
         case RFTableFooterViewType_LoadFailed:
         {
-            self.tableFooterButton.hidden = NO;
-            self.tableFooterImageView.hidden = YES;
+            self.retryButton.hidden = NO;
+            self.noMoreView.hidden = YES;
         }
             break;
             
         case RFTableFooterViewType_NoMore:
         {
-            self.tableFooterButton.hidden = YES;
-            self.tableFooterImageView.hidden = NO;
+            self.retryButton.hidden = YES;
+            self.noMoreView.hidden = NO;
         }
             break;
             
         default:
         {
-            self.tableFooterButton.hidden = YES;
-            self.tableFooterImageView.hidden = YES;
+            self.retryButton.hidden = YES;
+            self.noMoreView.hidden = YES;
         }
             break;
     }
