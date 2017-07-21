@@ -84,6 +84,8 @@
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.backgroundView = nil;
         _tableView.backgroundColor = [UIColor colorWithHexString:@"F0F0F0"];
+        _tableView.tableHeaderView = [UIView new];
+        _tableView.tableFooterView = [UIView new];
     }
     return _tableView;
 }

@@ -100,7 +100,7 @@
         [weakSelf.tableView reloadData];
     };
     
-    model.pageIndex = k_RF_FirstPageIndex;
+    model.pageIndex = model.firstPageIndex;
     if (model.refreshBlock) {
         [self.tableView.pullToRefreshView startAnimating];
         [model.dataList removeAllObjects];
@@ -142,7 +142,7 @@
     __block RFBaseDynamicTableViewModel *model = (RFBaseDynamicTableViewModel *)self.model;
     
     if (!_isNeedFooterView) {
-        self.tableView.tableFooterView = nil;
+        self.tableView.tableFooterView = [UIView new];
         return;
     }
     
@@ -151,13 +151,11 @@
         self.tableView.showsInfiniteScrolling = NO;
         
         if (model.dataList.count == 0) {
-            self.tableView.tableFooterView = nil;
+            self.tableView.tableFooterView = [UIView new];
         } else {
             if (model.getFooterViewBlock && model.getFooterViewBlock(RFTableFooterViewType_LoadFailed)) {
                 
             } else {
-//                [self.tableFooterView setType:RFTableFooterViewType_LoadFailed];
-//                self.tableView.tableFooterView = self.tableFooterView;
                 [self __setFooterViewWithType:RFTableFooterViewType_LoadFailed];
             }
         }
@@ -167,15 +165,11 @@
         self.tableView.showsInfiniteScrolling = model.hasMore;
         
         if (model.hasMore) {
-            self.tableView.tableFooterView = nil;
+            self.tableView.tableFooterView = [UIView new];
         } else {
             if (model.dataList.count == 0) {
-//                [self.tableFooterView setType:RFTableFooterViewType_None];
-//                self.tableView.tableFooterView = nil;
                 [self __setFooterViewWithType:RFTableFooterViewType_None];
             } else {
-//                [self.tableFooterView setType:RFTableFooterViewType_NoMore];
-//                self.tableView.tableFooterView = self.tableFooterView;
                 [self __setFooterViewWithType:RFTableFooterViewType_NoMore];
             }
         }
@@ -184,12 +178,14 @@
 
 - (void)__setFooterViewWithType:(RFTableFooterViewType)type {
     RFBaseDynamicTableViewModel *model = (RFBaseDynamicTableViewModel *)self.model;
-    UIView *footerView = nil;
     
-    if (model.getFooterViewBlock
-        && (footerView = model.getFooterViewBlock(type))
-        ) {
-        self.tableView.tableFooterView = footerView;
+    if (model.getFooterViewBlock) {
+        UIView *footerView = model.getFooterViewBlock(type);
+        if (footerView) {
+            self.tableView.tableFooterView = footerView;
+        } else {
+            self.tableView.tableFooterView = [UIView new];
+        }
         
     } else {
         [self.tableFooterView setType:type];
@@ -200,8 +196,11 @@
 #pragma mark - 控件定义
 
 - (void)setupTableView {
-//    self.tableView.tableFooterView = self.tableFooterView;
-    [self __setFooterViewWithType:RFTableFooterViewType_None];
+    if (_isNeedFooterView) {
+        [self __setFooterViewWithType:RFTableFooterViewType_None];
+    } else {
+        self.tableView.tableFooterView = [UIView new];
+    }
     
     __typeof__ (self) __weak weakSelf = self;
     [self.tableView addPullToRefreshWithActionHandler:^{

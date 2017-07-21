@@ -9,7 +9,7 @@
 #import "RFBaseStaticTableViewModel.h"
 #import "RFBaseDynamicTableFooterView.h"
 
-#define k_RF_FirstPageIndex (1) // 列表拉取首页的页面索引号
+#define K_SGLIST_PAGE_SIZE (20)
 
 @interface RFBaseDynamicTableViewModel : RFBaseStaticTableViewModel
 
@@ -23,6 +23,7 @@
 @property (nonatomic, assign) BOOL hasMore;
 @property (nonatomic, assign) NSUInteger itemsCount;
 @property (nonatomic, copy) NSString *noDataAlertString;
+@property (nonatomic, assign) NSUInteger firstPageIndex;
 
 @property (nonatomic, unsafe_unretained) Class cellModelClass;
 @property (nonatomic, unsafe_unretained) Class cellViewClass;

@@ -14,9 +14,10 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        _firstPageIndex = 0;
         _total = 0;
         _count = 0;
-        _pageIndex = k_RF_FirstPageIndex;
+        _pageIndex = self.firstPageIndex;
         _itemsCount = 0;
         _noDataAlertString = nil;
         _cellHeight = k_RF_BaseTableViewCell_Height;
@@ -48,14 +49,17 @@
 }
 
 - (void)dealloc {
+    _firstPageIndex = 0;
     _total = 0;
     _count = 0;
-    _pageIndex = k_RF_FirstPageIndex;
+    _pageIndex = self.firstPageIndex;
     _itemsCount = 0;
     _noDataAlertString = nil;
     
-    [_dataList removeAllObjects];
-    _dataList = nil;
+    if (_dataList) {
+        [_dataList removeAllObjects];
+        _dataList = nil;
+    }
 }
 
 #pragma mark - 控件变量定义
@@ -100,7 +104,7 @@
         [newList addObject:itemDic];
     }
     @synchronized(self) {
-        if (self.dataList.count > 0 && self.pageIndex <= k_RF_FirstPageIndex) {
+        if (self.dataList.count > 0 && self.pageIndex <= self.firstPageIndex) {
             [self.dataList removeAllObjects];
         }
         [self.dataList addObjectsFromArray:newList];

@@ -47,33 +47,6 @@
     
     self.model = [[DemoDynamicListModel alloc] init];
     __block DemoDynamicListModel *model = (DemoDynamicListModel *)self.model;
-    model.noDataAlertString = NSLocalizedString(@"NO_DATA", nil); // 设置无数据时的显示内容
-    
-    // 设置刷新操作请求网络数据的回调方法
-    model.refreshBlock = ^ (RFCompletionBlock completion) {
-        DemoDynamicListModel *model = (DemoDynamicListModel *)weakSelf.model;
-        [model reqDataListWithPageIndex:model.pageIndex
-                               pageSize:K_SGLIST_PAGE_SIZE
-                             completion:^(id data, NSError *error)
-         {
-             if (completion) {
-                 completion(data, error);
-             }
-         }];
-    };
-    
-    // 设置拉取更多操作请求网络数据的回调方法
-    model.loadMoreBlock = ^ (RFCompletionBlock completion) {
-        DemoDynamicListModel *model = (DemoDynamicListModel *)weakSelf.model;
-        [model reqDataListWithPageIndex:model.pageIndex
-                                  pageSize:K_SGLIST_PAGE_SIZE
-                                completion:^(id data, NSError *error)
-         {
-             if (completion) {
-                 completion(data, error);
-             }
-         }];
-    };
     
     // cell的点击操作回调
     model.didSelectRowAtIndexPathBlock = ^(UITableView *tableView, NSIndexPath *indexPath) {

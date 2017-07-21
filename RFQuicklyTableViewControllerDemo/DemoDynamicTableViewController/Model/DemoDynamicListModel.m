@@ -22,6 +22,33 @@
         self.cellModelClass = [DemoDynamicCellModel class];
         self.cellViewClass = [DemoDynamicTableViewCell class];
         self.cellHeight = k_RF_BaseTableViewCell_Height;
+        
+        self.noDataAlertString = NSLocalizedString(@"NO_DATA", nil); // 设置无数据时的显示内容
+        
+        __weak __typeof(&*self)weakSelf = self;
+        // 设置刷新操作请求网络数据的回调方法
+        self.refreshBlock = ^ (RFCompletionBlock completion) {
+            [weakSelf reqDataListWithPageIndex:weakSelf.pageIndex
+                                   pageSize:K_SGLIST_PAGE_SIZE
+                                 completion:^(id data, NSError *error)
+             {
+                 if (completion) {
+                     completion(data, error);
+                 }
+             }];
+        };
+        
+        // 设置拉取更多操作请求网络数据的回调方法
+        self.loadMoreBlock = ^ (RFCompletionBlock completion) {
+            [weakSelf reqDataListWithPageIndex:weakSelf.pageIndex
+                                   pageSize:K_SGLIST_PAGE_SIZE
+                                 completion:^(id data, NSError *error)
+             {
+                 if (completion) {
+                     completion(data, error);
+                 }
+             }];
+        };
     }
     return self;
 }
@@ -80,12 +107,13 @@
  *
  */
 - (void)reqDataListHttpWithPageIndex:(NSUInteger)pageIndex pageSize:(NSUInteger)pageSize completion:(RFCompletionBlock)completion {
+    __weak __typeof(&*self)weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
         NSMutableArray *list = [NSMutableArray array];
-        int total = 50;
-        int startIndex = ((int)pageIndex - k_RF_FirstPageIndex) * (int)pageSize;
-        int endIndex = MIN((startIndex + (int)pageSize), total);
-        for (int i = startIndex; i < endIndex; i++) {
+        NSUInteger total = 50;
+        NSUInteger startIndex = ((int)pageIndex - weakSelf.firstPageIndex) * (int)pageSize;
+        NSUInteger endIndex = MIN((startIndex + (int)pageSize), total);
+        for (NSUInteger i = startIndex; i < endIndex; i++) {
             [list addObject:@{@"title": [NSString stringWithFormat:@"cell index %@", @(i)]}];
         }
         NSDictionary *resDataDic = @{@"total": @(total),
