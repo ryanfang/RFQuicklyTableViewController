@@ -72,20 +72,33 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        CGFloat w = CGRectGetWidth(self.view.frame);
-        CGFloat h = CGRectGetHeight(self.view.frame);
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, w, h) style:_style];
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        _tableView.separatorColor = [UIColor colorWithHexString:@"e1e1e1"];
-//        _tableView.separatorInset = UIEdgeInsetsMake(0, 80, 0, 0);
-        _tableView.scrollsToTop = YES;
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        _tableView.showsVerticalScrollIndicator = NO;
-        _tableView.backgroundView = nil;
-        _tableView.backgroundColor = [UIColor colorWithHexString:@"F0F0F0"];
-        _tableView.tableHeaderView = [UIView new];
-        _tableView.tableFooterView = [UIView new];
+        UITableView *tableView = nil;
+        
+        // 如果有自定义优先使用自定义的UITableView
+        RFBaseStaticTableViewModel *model = self.model;
+        if (model.getCustomTableViewBlock) {
+            tableView = model.getCustomTableViewBlock();
+        }
+        
+        // 如果没有自定义优先使用默认的UITableView
+        if (!tableView) {
+            CGFloat w = CGRectGetWidth(self.view.frame);
+            CGFloat h = CGRectGetHeight(self.view.frame);
+            tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, w, h) style:_style];
+            tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+            tableView.separatorColor = [UIColor colorWithHexString:@"e1e1e1"];
+            //        _tableView.separatorInset = UIEdgeInsetsMake(0, 80, 0, 0);
+            tableView.scrollsToTop = YES;
+            tableView.delegate = self;
+            tableView.dataSource = self;
+            tableView.showsVerticalScrollIndicator = NO;
+            tableView.backgroundView = nil;
+            tableView.backgroundColor = [UIColor colorWithHexString:@"F0F0F0"];
+            tableView.tableHeaderView = [UIView new];
+            tableView.tableFooterView = [UIView new];
+        }
+        
+        _tableView = tableView;
     }
     return _tableView;
 }

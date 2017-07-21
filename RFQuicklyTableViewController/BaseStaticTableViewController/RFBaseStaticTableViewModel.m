@@ -19,6 +19,12 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        _delegate = nil;
+        _sections = nil;
+        _cellForRowAtIndexPathBlock = nil;
+        _didSelectRowAtIndexPathBlock = nil;
+        _getCustomTableViewBlock = nil;
+        
         __typeof__ (self) __weak weakSelf = self;
         self.cellForRowAtIndexPathBlock = ^(UITableView *tableView, NSIndexPath *indexPath) {
             NSDictionary *cellDic = [weakSelf callSelectorWithIndexPath:indexPath

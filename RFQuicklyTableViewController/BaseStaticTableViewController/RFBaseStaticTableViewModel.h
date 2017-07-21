@@ -28,4 +28,7 @@
 /** didSelectRowAtIndexPath的回调方法 */
 @property (nonatomic, strong) void (^didSelectRowAtIndexPathBlock)(UITableView *tableView, NSIndexPath *indexPath);
 
+/** 获取自定义的UITableView */
+@property (nonatomic, strong) UITableView* (^getCustomTableViewBlock)();
+
 @end

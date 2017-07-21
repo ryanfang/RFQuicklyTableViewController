@@ -35,7 +35,7 @@
 }
 
 - (IBAction)dynamicListButton:(id)sender {
-    DemoDynamicTableViewController *vc = [[DemoDynamicTableViewController alloc] init];
+    DemoDynamicTableViewController *vc = [[DemoDynamicTableViewController alloc] initWithStyle:UITableViewStylePlain];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
