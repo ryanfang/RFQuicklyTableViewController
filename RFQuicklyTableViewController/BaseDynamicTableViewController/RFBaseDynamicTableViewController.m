@@ -150,11 +150,16 @@
         // 请求失败，则不显示上拉加载分页的动画
         self.tableView.showsInfiniteScrolling = NO;
         
-        [self.tableFooterView setType:RFTableFooterViewType_LoadFailed];
         if (model.dataList.count == 0) {
             self.tableView.tableFooterView = nil;
         } else {
-            self.tableView.tableFooterView = self.tableFooterView;
+            if (model.getFooterViewBlock && model.getFooterViewBlock(RFTableFooterViewType_LoadFailed)) {
+                
+            } else {
+//                [self.tableFooterView setType:RFTableFooterViewType_LoadFailed];
+//                self.tableView.tableFooterView = self.tableFooterView;
+                [self __setFooterViewWithType:RFTableFooterViewType_LoadFailed];
+            }
         }
         
     } else {
@@ -165,20 +170,38 @@
             self.tableView.tableFooterView = nil;
         } else {
             if (model.dataList.count == 0) {
-                [self.tableFooterView setType:RFTableFooterViewType_None];
-                self.tableView.tableFooterView = nil;
+//                [self.tableFooterView setType:RFTableFooterViewType_None];
+//                self.tableView.tableFooterView = nil;
+                [self __setFooterViewWithType:RFTableFooterViewType_None];
             } else {
-                [self.tableFooterView setType:RFTableFooterViewType_NoMore];
-                self.tableView.tableFooterView = self.tableFooterView;
+//                [self.tableFooterView setType:RFTableFooterViewType_NoMore];
+//                self.tableView.tableFooterView = self.tableFooterView;
+                [self __setFooterViewWithType:RFTableFooterViewType_NoMore];
             }
         }
+    }
+}
+
+- (void)__setFooterViewWithType:(RFTableFooterViewType)type {
+    RFBaseDynamicTableViewModel *model = (RFBaseDynamicTableViewModel *)self.model;
+    UIView *footerView = nil;
+    
+    if (model.getFooterViewBlock
+        && (footerView = model.getFooterViewBlock(type))
+        ) {
+        self.tableView.tableFooterView = footerView;
+        
+    } else {
+        [self.tableFooterView setType:type];
+        self.tableView.tableFooterView = self.tableFooterView;
     }
 }
 
 #pragma mark - 控件定义
 
 - (void)setupTableView {
-    self.tableView.tableFooterView = self.tableFooterView;
+//    self.tableView.tableFooterView = self.tableFooterView;
+    [self __setFooterViewWithType:RFTableFooterViewType_None];
     
     __typeof__ (self) __weak weakSelf = self;
     [self.tableView addPullToRefreshWithActionHandler:^{

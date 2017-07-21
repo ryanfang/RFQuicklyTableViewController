@@ -7,6 +7,7 @@
 //
 
 #import "RFBaseStaticTableViewModel.h"
+#import "RFBaseDynamicTableFooterView.h"
 
 #define k_RF_FirstPageIndex (1) // 列表拉取首页的页面索引号
 
@@ -39,6 +40,9 @@ typedef void (^RFCompletionBlock)(id data, NSError *error);
 
 /** 加载失败的时候Block回调方法 */
 @property (nonatomic, strong) RFCompletionBlock failuredBlock;
+
+/** 获取自定义的FooterView的Block回调方法，不定义则使用默认的风格 */
+@property (nonatomic, strong) UIView* (^getFooterViewBlock)(RFTableFooterViewType type);
 
 /**
  *  解析网络请求的列表数据

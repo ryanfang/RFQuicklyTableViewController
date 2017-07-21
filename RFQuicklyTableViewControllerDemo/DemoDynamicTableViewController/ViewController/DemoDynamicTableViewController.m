@@ -102,6 +102,27 @@
         }
         return cell;
     };
+    // 获取自定义的FooterView的Block回调方法，不定义则使用默认的风格
+//    model.getFooterViewBlock = ^UIView *(RFTableFooterViewType type) {
+//        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 30)];
+//        switch (type) {
+//            case RFTableFooterViewType_LoadFailed:
+//                footerView.backgroundColor = [UIColor lightGrayColor];
+//                break;
+//                
+//            case RFTableFooterViewType_NoMore:
+//                footerView.backgroundColor = [UIColor greenColor];
+//                break;
+//                
+//            case RFTableFooterViewType_None:
+//                footerView.backgroundColor = [UIColor clearColor];
+//                break;
+//                
+//            default:
+//                break;
+//        }
+//        return footerView;
+//    };
 }
 
 - (void)__setupNavigation {
